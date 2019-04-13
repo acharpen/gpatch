@@ -1,0 +1,54 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building an application
+    id 'application'
+}
+
+compileJava   {
+  sourceCompatibility = '11'
+  targetCompatibility = '11'
+}
+
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    implementation 'info.picocli:picocli:4.0.0-alpha-1'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+// Define the main class for the application
+mainClassName = 'com.yac.gpatch.App'
+
+version = '0.0.1'
+
+///////////////////////////////////////////////////////////////////////////////
+
+def generatedResources = "$buildDir/generated-resources/main"
+sourceSets {
+    main {
+        // Register an output folder on the main SourceSet:
+        output.dir(generatedResources, builtBy: 'generateVersionTxt')
+        // It is now a part of the 'main' classpath and will be a part of the jar
+    }
+}
+
+// A task that generates the resources
+task generateVersionTxt {
+    description 'Creates a version.txt file with build info that is added to the root of the jar'
+    doLast {
+        new File(generatedResources).mkdirs()
+        def generated = new File(generatedResources, "version.txt")
+        generated.text = """
+          Version: $rootProject.version
+          """
+    }
+}

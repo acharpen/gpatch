@@ -1,0 +1,15 @@
+# Java
+*.class
+
+# Eclipse
+*.classpath
+*.project
+*.settings
+
+# Gradle
+.gradle/
+build/
+bin/
+
+# VisualStudioCode
+.vscode/
